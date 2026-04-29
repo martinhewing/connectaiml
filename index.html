@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Factory Hub</title>
+<title>Connect AI ML</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -18,128 +18,291 @@
 <body>
 <div id="root"></div>
 
-<script type="text/babel" data-presets="react" data-type="module">
+<script type="text/babel" data-presets="react">
 const { useState, useMemo } = React;
 
-// ── PALETTE — from app/visual_theme.py ─────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────
+// FactoryHub.jsx
+//
+// Landing page for Connect AI ML — eight production AI/ML projects across
+// voice agents, web learning tools, developer tooling, and scientific
+// simulation. Three engineering substrates underlie the eight surfaces.
+//
+// Visual language inherited from app/visual_theme.py:
+//   - Warm paper background, terracotta accent reserved for emphasis
+//   - Iowan Old Style serif for titles, Helvetica for body, Menlo for mono
+//   - Narrow editorial reading column, generous negative space
+//
+// Single default export, no required props. Everything in one file.
+// ─────────────────────────────────────────────────────────────────────────
+
+// React loaded via UMD
+
+// ── PALETTE ────────────────────────────────────────────────────────────
+// Mirrors app/visual_theme.py exactly so this page reads as part of the
+// same surface as the SVG renderer and interview pages.
+
 const t = {
-  paper: "#FAF9F6", surface1: "#F5F2EC", surface2: "#EBE6DB",
-  borderSoft: "#E8E4DB", borderMedium: "#D9D4C7", borderStrong: "#8A8276",
-  inkPrimary: "#2B2826", inkSecondary: "#5A5550", inkTertiary: "#7A7368", inkGhost: "#C0BAB0",
-  accentFill: "#F5E8DF", accentBorder: "#C96E4A", accentInk: "#8A3D1F",
+  paper:        "#FAF9F6",
+  surface1:     "#F5F2EC",
+  surface2:     "#EBE6DB",
+  borderSoft:   "#E8E4DB",
+  borderMedium: "#D9D4C7",
+  borderStrong: "#8A8276",
+
+  inkPrimary:   "#2B2826",
+  inkSecondary: "#5A5550",
+  inkTertiary:  "#7A7368",
+  inkGhost:     "#C0BAB0",
+
+  accentFill:   "#F5E8DF",
+  accentBorder: "#C96E4A",
+  accentInk:    "#8A3D1F",
 };
 
 const FONT_SERIF = "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif";
 const FONT_SANS  = "Helvetica, 'Helvetica Neue', Arial, sans-serif";
-const FONT_MONO  = "'JetBrains Mono', Menlo, Consolas, monospace";
+const FONT_MONO  = "Menlo, 'JetBrains Mono', Consolas, monospace";
 
 // ── DATA ───────────────────────────────────────────────────────────────
+// Seven instances. Engineering Playbook replaces the dropped
+// Python Fundamentals Factory.
+
 const FACTORIES = [
   {
-    id: "connectionsphere", name: "ConnectionSphere Factory", category: "voice",
-    tagline: "Voice-driven system design interview simulator, calibrated to FAANG principal-engineer hire bar.",
-    domain: "System design interviews — Alex Xu, System Design Interview: An Insider's Guide",
+    id: "connectionsphere",
+    name: "ConnectionSphere",
+    category: "agent",
+    substrate: "conversational",
+    tagline:
+      "Voice-driven system design interview simulator, calibrated to FAANG principal-engineer hire bar.",
+    domain:
+      "System design interviews — Alex Xu, System Design Interview: An Insider's Guide",
     agents: "Alex (tutor) · Jordan (interviewer)",
     curriculum: "12 concepts — single server → full architecture capstone",
     extra: "6 drawable concepts scored by Claude Vision",
     liveUrl: "system-design.connectaiml.com",
     apiDocs: "https://system-design.connectaiml.com/docs",
     sessionPath: "/session/{id}/interview",
-    cheatsheet: { label: "Chapter 1 — Scale from Zero to Millions of Users", url: "https://gist.github.com/martinhewing/056cac9eaab8042e536daf5305ae8406" },
+    cheatsheet: {
+      label: "Chapter 1 — Scale from Zero to Millions of Users",
+      url: "https://gist.github.com/martinhewing/056cac9eaab8042e536daf5305ae8406",
+    },
     repo: "github.com/martinhewing/connectionsphere-factory",
-    port: 8391, python: "3.12", license: "MIT", tests: "57 passing",
+    port: 8391,
+    python: "3.12",
+    license: "MIT",
+    tests: "57 passing",
   },
   {
-    id: "ood", name: "OOD Factory", category: "voice",
-    tagline: "Voice-driven object-oriented design interview simulator, calibrated to FAANG principal-engineer bar.",
-    domain: "Object-oriented design — ByteByteGo, OOD Interview, Chapter 4: Parking Lot",
+    id: "ood",
+    name: "OOD",
+    category: "agent",
+    substrate: "conversational",
+    tagline:
+      "Voice-driven object-oriented design interview simulator, calibrated to FAANG principal-engineer bar.",
+    domain:
+      "Object-oriented design — ByteByteGo, OOD Interview, Chapter 4: Parking Lot",
     agents: "Alex (tutor) · Jordan (examiner)",
     curriculum: "8 concepts — requirements gathering → ParkingLot facade",
     extra: "6 diagram concepts scored by Claude Vision",
     liveUrl: "object-orientated-design.connectaiml.com",
     apiDocs: "https://object-orientated-design.connectaiml.com/docs",
     sessionPath: "/session/{id}/interview",
-    cheatsheet: { label: "OOD Cheat Sheet — Parking Lot System", url: "https://gist.github.com/martinhewing/b6638f2ab49bc77dfab8195fcd864328" },
+    cheatsheet: {
+      label: "OOD Cheat Sheet — Parking Lot System",
+      url: "https://gist.github.com/martinhewing/b6638f2ab49bc77dfab8195fcd864328",
+    },
     repo: "github.com/martinhewing/ood-factory",
-    port: 8393, python: "3.12", license: "MIT",
+    port: 8393,
+    python: "3.12",
+    license: "MIT",
   },
   {
-    id: "competitive-programming", name: "Competitive Programming Factory", category: "voice",
-    tagline: "Voice-driven mathematical olympiad tutor, calibrated to competition and FAANG technical-interview problem-solving bar.",
-    domain: "Mathematical olympiad — Derek Holton, First Step to Mathematical Olympiad Problems, Chapter 1",
+    id: "competitive-programming",
+    name: "Competitive Programming",
+    category: "agent",
+    substrate: "conversational",
+    tagline:
+      "Voice-driven mathematical olympiad tutor, calibrated to competition and FAANG technical-interview problem-solving bar.",
+    domain:
+      "Mathematical olympiad — Derek Holton, First Step to Mathematical Olympiad Problems, Chapter 1",
     agents: "Alistair (tutor) · Imogen (examiner)",
-    curriculum: "8 concepts — problem-solving framework → Frobenius coin theorem",
-    extra: "6 provable concepts with rubric-scored proofs · KaTeX display + LaTeX-to-speech for TTS",
+    curriculum:
+      "8 concepts — problem-solving framework → Frobenius coin theorem",
+    extra:
+      "6 provable concepts with rubric-scored proofs · KaTeX display + LaTeX-to-speech for TTS",
     liveUrl: "competitive-programming.connectaiml.com",
     apiDocs: "https://competitive-programming.connectaiml.com/docs",
     sessionPath: "/session/{id}/interview",
-    cheatsheet: { label: "Chapter 1 — Jugs, Stamps, and How to Solve Problems", url: "https://gist.github.com/martinhewing/8803e8abacc2d44e98685f716717b224" },
+    cheatsheet: {
+      label: "Chapter 1 — Jugs, Stamps, and How to Solve Problems",
+      url: "https://gist.github.com/martinhewing/8803e8abacc2d44e98685f716717b224",
+    },
     repo: "github.com/martinhewing/competitive-programming-factory",
-    port: 8395, python: "3.12", license: "MIT",
+    port: 8395,
+    python: "3.12",
+    license: "MIT",
   },
   {
-    id: "spanish-tutor", name: "SpanishTutor Factory", category: "voice",
-    tagline: "Voice-driven Spanish tutor. Elena teaches, drills, scores, and speaks — you learn by talking.",
-    domain: "Spanish language learning — A–Z Grammar Guide + 1000-word Spanish Supercharger list",
+    id: "spanish-tutor",
+    name: "SpanishTutor",
+    category: "agent",
+    substrate: "conversational",
+    tagline:
+      "Voice-driven Spanish tutor. Elena teaches, drills, scores, and speaks — you learn by talking.",
+    domain:
+      "Spanish language learning — A–Z Grammar Guide + 1000-word Spanish Supercharger list",
     agents: "Elena (single tutor persona, Spanish female voice)",
     curriculum: "20 stages × 4 difficulty levels = 80 sub-lessons",
-    extra: "Whisper STT → deduplication → Haiku enrichment (English glosses + IPA) → Sonnet assessment",
+    extra:
+      "Whisper STT → deduplication → Haiku enrichment (English glosses + IPA) → Sonnet assessment",
     liveUrl: "getfluent-ai.com",
     apiDocs: "https://getfluent-ai.com/docs",
     sessionPath: "/session/{id}/tutor",
-    cheatsheet: { label: "Stage 1 — Noun Gender & Articles (el vs la)", url: "https://gist.github.com/martinhewing/b454e04c218e75d31a4651522717e8b3" },
+    cheatsheet: {
+      label: "Stage 1 — Noun Gender & Articles (el vs la)",
+      url: "https://gist.github.com/martinhewing/b454e04c218e75d31a4651522717e8b3",
+    },
     repo: "github.com/martinhewing/spanishtutor-factory",
-    port: 8392, python: "3.12", license: "MIT",
+    port: 8392,
+    python: "3.12",
+    license: "MIT",
   },
   {
-    id: "engineering-playbook", name: "Engineering Playbook", category: "worksheet", isNew: true,
-    tagline: "Five-document interactive engineering reference: OOP design, TDD templates, system architecture, CP sketches, library.",
-    domain: "Engineering reference — object design, test-driven development, microservices architecture, algorithmic patterns",
-    agents: "AI examiner via Claude Sonnet — question generation, answer evaluation, follow-up probes",
-    curriculum: "5 docs · 100+ labels (CAT-x, B.1.x, FT-x, PAT-x, SOLID-x, N1–N42)",
-    extra: "Reference cards · code templates · debugger toys · TDD scaffolds · stepper quizzes · model answers (WEAK / HEDGING / STRONG) with rubric eval",
+    id: "engineering-playbook",
+    name: "Engineering Playbook",
+    category: "learning-tool",
+    substrate: "pedagogy",
+    isNew: true,
+    tagline:
+      "Five-document interactive engineering reference: OOP design, TDD templates, system architecture, CP sketches, library.",
+    domain:
+      "Engineering reference — object design, test-driven development, microservices architecture, algorithmic patterns",
+    agents:
+      "AI examiner via Claude Sonnet — question generation, answer evaluation, follow-up probes",
+    curriculum:
+      "5 docs · 100+ labels (CAT-x, B.1.x, FT-x, PAT-x, SOLID-x, N1–N42)",
+    extra:
+      "Reference cards · code templates · debugger toys · TDD scaffolds · stepper quizzes · model answers (WEAK / HEDGING / STRONG) with rubric eval",
     liveUrl: "engineering-playbook.connectaiml.com",
     apiDocs: "https://engineering-playbook.connectaiml.com/docs",
-    sessionPath: "/",
-    cheatsheet: { label: "Label Index — CAT-1 through SOLID-DIP", url: "https://gist.github.com/martinhewing" },
+    sessionPath: "/", // single-page reading app
+    cheatsheet: {
+      label: "Label Index — CAT-1 through SOLID-DIP",
+      url: "https://gist.github.com/martinhewing",
+    },
     repo: "github.com/martinhewing/engineering-playbook",
-    port: 8398, python: "3.12 + React 18", license: "MIT",
+    port: 8398,
+    python: "3.12 + React 18",
+    license: "MIT",
   },
   {
-    id: "refactoring", name: "Refactoring Factory", category: "worksheet",
-    tagline: "Interactive discovery, debugging, and characterisation testing worksheet for decomposing a Twilio WhatsApp monolith.",
-    domain: "Monolith refactoring — Complete Python TDD & OOP Guide, Refactoring & Characterisation Testing chapters",
-    agents: "None — interactive worksheet with model answers, debugger exercises, self-assessment",
-    curriculum: "Module 00 (environment) · Module 01 (discovery, debugging, char tests) · Module 02 (extraction)",
-    extra: "CAT-1–9 · SOLID/OOP labels · CONC labels · PAT/PRT pattern labels · ~2000-line FastAPI monolith target",
+    id: "refactoring",
+    name: "Refactoring",
+    category: "learning-tool",
+    substrate: "pedagogy",
+    tagline:
+      "Interactive discovery, debugging, and characterisation testing worksheet for decomposing a Twilio WhatsApp monolith.",
+    domain:
+      "Monolith refactoring — Complete Python TDD & OOP Guide, Refactoring & Characterisation Testing chapters",
+    agents:
+      "None — interactive worksheet with model answers, debugger exercises, self-assessment",
+    curriculum:
+      "Module 00 (environment) · Module 01 (discovery, debugging, char tests) · Module 02 (extraction)",
+    extra:
+      "CAT-1–9 · SOLID/OOP labels · CONC labels · PAT/PRT pattern labels · ~2000-line FastAPI monolith target",
     liveUrl: "twilio-refactoring-plan.connectaiml.com",
-    apiDocs: null, sessionPath: null, cheatsheet: null,
+    apiDocs: null,
+    sessionPath: null,
+    cheatsheet: null,
     repo: "github.com/martinhewing/twilio-refactoring-plan",
-    port: 8394, python: "React 18", license: "private",
+    port: 8394,
+    python: "React 18",
+    license: "private",
   },
   {
-    id: "debugging", name: "Debugging Factory", category: "tool",
-    tagline: "Speech-to-text call stack and FSM state analyser. Captures every transition, annotates frames with Claude, generates visual + interview artefacts.",
-    domain: "Call stack analysis & FSM visualisation — Complete Python TDD & OOP Guide, Systematic Debugging chapter",
+    id: "debugging",
+    name: "Debugging",
+    category: "developer-tool",
+    substrate: "pedagogy",
+    tagline:
+      "Speech-to-text call stack and FSM state analyser. Captures every transition, annotates frames with Claude, generates visual + interview artefacts.",
+    domain:
+      "Call stack analysis & FSM visualisation — Complete Python TDD & OOP Guide, Systematic Debugging chapter",
     agents: "None — speech-to-text pipeline, no tutor/examiner agents",
-    curriculum: "Stack: capture → annotate → render → interview · FSM: live → render",
-    extra: "traceback.extract_stack() on every fsm.transition_to() · Claude per-frame annotation · SVG + HTML outputs",
-    liveUrl: "localhost:8000", apiDocs: "http://localhost:8000/docs",
+    curriculum:
+      "Stack: capture → annotate → render → interview · FSM: live → render",
+    extra:
+      "traceback.extract_stack() on every fsm.transition_to() · Claude per-frame annotation · SVG + HTML outputs",
+    liveUrl: "localhost:8000",
+    apiDocs: "http://localhost:8000/docs",
     sessionPath: "/stack-trace/{customer_number}",
-    cheatsheet: { label: "Analyzing Call Stack Traces", url: "#" },
+    cheatsheet: {
+      label: "Analyzing Call Stack Traces",
+      url: "#",
+    },
     repo: "github.com/martinhewing/debugging-factory",
-    port: 8396, python: "3.12", license: "MIT", deployed: false,
+    port: 8396,
+    python: "3.12",
+    license: "MIT",
+    deployed: false,
+  },
+  {
+    id: "perfect-storm",
+    name: "Perfect Storm",
+    category: "simulation",
+    substrate: "numerical",
+    isNew: true,
+    tagline:
+      "Wave field simulation, rogue-event detection, and extreme value analysis to ISO 19901-1. Dual 3D Plotly visualisation with a reference vessel rendered on the surface.",
+    domain:
+      "Offshore engineering — JONSWAP / Pierson-Moskowitz / Bretschneider spectra, Gumbel EVA, ISO 19901-1 design wave heights",
+    agents: "None — numerical simulation, deterministic given seed",
+    curriculum:
+      "Spectral generation → spatial field → zero-crossing wave detection → Gumbel EVA → 10,000-year return periods",
+    extra:
+      "100 frequencies × 16 directions across 80×80 grid · vectorised NumPy · ship hull rendered with real-time pitch/roll from local surface gradient",
+    liveUrl: "localhost:8501",
+    apiDocs: null,
+    sessionPath: null,
+    cheatsheet: {
+      label: "Companion to Python NumPy Array Manipulation Mastery",
+      url: "https://gist.github.com/martinhewing",
+    },
+    repo: null,
+    repoPrivate: true,
+    port: 8501,
+    python: "3.10+ · Streamlit",
+    license: "Proprietary",
+    deployed: false,
   },
 ];
 
-const ARCHITECTURE = [
-  { name: "FSM",                       desc: "Finite state machine enforcing session protocol — teaching cannot advance until comprehension passes, examination cannot advance until the concept bar is met." },
-  { name: "DLL",                       desc: "Doubly linked list for session history — O(1) append, O(1) backtracking to the tutor agent without losing examiner position." },
-  { name: "Monotonic accumulation",    desc: "Demonstrated concepts accumulate via set-union across turns — partial answers build on each other, never reset." },
-  { name: "Multi-agent orchestration", desc: "Shared Redis state routes between tutor and examiner agents based on FSM state, concept coverage, and candidate request." },
-  { name: "Voice pipeline",            desc: "Cartesia Sonic (TTS) + Cartesia Ink or Whisper (STT) — SSM-based streaming with ~40 ms first-audio latency." },
-  { name: "Vision scoring",            desc: "Claude Vision scores uploaded diagrams and proofs against curriculum rubrics." },
+// ── SHARED SUBSTRATES ──────────────────────────────────────────────────
+// Three engineering substrates underlie the eight projects. The shape of
+// the work differs (voice loops, web tools, scientific simulation) but
+// each substrate represents a coherent stack used across multiple projects.
+
+const SUBSTRATES = [
+  {
+    name: "Conversational",
+    projects: ["ConnectionSphere", "OOD", "Competitive Programming", "SpanishTutor"],
+    desc: "FSM + DLL session engine, multi-agent orchestration over Redis state, Cartesia voice pipeline (~40 ms first-audio latency), Claude Vision scoring for diagrams and proofs. Four voice agents share this entire stack.",
+  },
+  {
+    name: "Pedagogy",
+    projects: ["Engineering Playbook", "Refactoring", "Debugging"],
+    desc: "Anthropic Claude (Sonnet for assessment, Haiku for enrichment) behind FastAPI, rendered as React 18 single-page apps. Reference cards, code templates, debugger toys, TDD scaffolds, stepper quizzes with rubric evaluation. Debugging instruments the conversational stack — captures FSM transitions, annotates frames with Claude, generates artefacts. No voice loop, but the same agent and scoring patterns as the conversational stack.",
+  },
+  {
+    name: "Numerical",
+    projects: ["Perfect Storm"],
+    desc: "NumPy + SciPy + Plotly + Streamlit. Vectorised spectral synthesis, zero-crossing event detection, Gumbel extreme value analysis. The visualisation is a dual 3D Plotly scene driven by a single synchronised animation controller. Different stack, same engineering discipline.",
+  },
 ];
+
+const ARCHITECTURE = SUBSTRATES; // backward-compat alias for existing render code
 
 const STACK = [
   ["API",     "FastAPI + Scalar"],
@@ -153,71 +316,184 @@ const STACK = [
   ["Host",    "Digital Ocean VPS · GitHub Pages (Refactoring Factory)"],
 ];
 
+// ── CATEGORY METADATA ──────────────────────────────────────────────────
+
 const CATEGORIES = {
-  all:       { label: "All instances",  count: () => FACTORIES.length },
-  voice:     { label: "Voice-driven",   count: () => FACTORIES.filter(f => f.category === "voice").length },
-  worksheet: { label: "Worksheets",     count: () => FACTORIES.filter(f => f.category === "worksheet").length },
-  tool:      { label: "Tools",          count: () => FACTORIES.filter(f => f.category === "tool").length },
+  all: { label: "All projects", count: () => FACTORIES.length },
+  agent: {
+    label: "Agents",
+    count: () => FACTORIES.filter((f) => f.category === "agent").length,
+  },
+  "learning-tool": {
+    label: "Learning tools",
+    count: () => FACTORIES.filter((f) => f.category === "learning-tool").length,
+  },
+  "developer-tool": {
+    label: "Developer tools",
+    count: () => FACTORIES.filter((f) => f.category === "developer-tool").length,
+  },
+  simulation: {
+    label: "Simulation",
+    count: () => FACTORIES.filter((f) => f.category === "simulation").length,
+  },
 };
 
-const GIST_URL = "https://gist.github.com/martinhewing/6fddef90d2198dba4ef012e04989ae8d";
+// ── CONTRIBUTION STACK ─────────────────────────────────────────────────
+// Mirrors the gist at gist.github.com/martinhewing/6fddef90d2198dba4ef012e04989ae8d.
+// Two principles, eight workflow steps, a running experiences log.
 
-const APPSTACK_GIST_URL = "https://gist.github.com/martinhewing/5f45004aab9bd18695fd4505a987ccdd";
+const GIST_URL =
+  "https://gist.github.com/martinhewing/6fddef90d2198dba4ef012e04989ae8d";
+
+// ── APPLICATION STACK ──────────────────────────────────────────────────
+// Mirrors the gist at gist.github.com/martinhewing/5f45004aab9bd18695fd4505a987ccdd.
+// Eight stages — Plan → Code → Build → Test → Release → Deploy → Operate →
+// Monitor — each with the canonical tool(s) and the "why we chose it" summary.
+
+const APPSTACK_GIST_URL =
+  "https://gist.github.com/martinhewing/5f45004aab9bd18695fd4505a987ccdd";
 
 const APPSTACK_STAGES = [
-  { num: 1, name: "Plan", tools: ["GitHub", "MkDocs"],
+  {
+    num: 1,
+    name: "Plan",
+    tools: ["GitHub", "MkDocs"],
     summary: "Planning lives where the code lives.",
-    detail: "GitHub Issues and Projects track features, bugs, and technical debt. MkDocs generates documentation sites from markdown files alongside the code — ADRs, API specs, runbooks, developer guides. No separate wiki to keep in sync; docs are a first-class citizen of the codebase. Database design is owned here too: schema is an architectural decision, not an implementation detail." },
-  { num: 2, name: "Code", tools: ["FastAPI", "Pydantic", "Django", "Flask"],
+    detail:
+      "GitHub Issues and Projects track features, bugs, and technical debt. MkDocs generates documentation sites from markdown files alongside the code — ADRs, API specs, runbooks, developer guides. No separate wiki to keep in sync; docs are a first-class citizen of the codebase. Database design is owned here too: schema is an architectural decision, not an implementation detail.",
+  },
+  {
+    num: 2,
+    name: "Code",
+    tools: ["FastAPI", "Pydantic", "Django", "Flask"],
     summary: "Pick the framework that matches the shape of the work.",
-    detail: "FastAPI with Pydantic is the default for APIs and microservices — automatic OpenAPI docs, async support, type-driven validation. Django for monoliths needing admin tooling and complex CRUD. Flask for tiny services or spiking ideas. Building an API → FastAPI. Admin panel or complex data models → Django. Quick service or prototype → Flask." },
-  { num: 3, name: "Build", tools: ["UV", "Docker", "SQLAlchemy", "SQLModel", "Alembic"],
+    detail:
+      "FastAPI with Pydantic is the default for APIs and microservices — automatic OpenAPI docs, async support, type-driven validation. Django for monoliths needing admin tooling and complex CRUD. Flask for tiny services or spiking ideas. Building an API → FastAPI. Admin panel or complex data models → Django. Quick service or prototype → Flask.",
+  },
+  {
+    num: 3,
+    name: "Build",
+    tools: ["UV", "Docker", "SQLAlchemy", "SQLModel", "Alembic"],
     summary: "One Python tool. Container parity. ORM that doesn't fight you.",
-    detail: "UV replaces pip, pip-tools, virtualenv, and pyenv with one Rust-fast CLI. Docker keeps dev and production identical — if it runs locally, it runs in production. SQLModel is the FastAPI-native default: Pydantic and SQLAlchemy in one model. SQLAlchemy where full query control is needed. Alembic handles version-controlled migrations for both." },
-  { num: 4, name: "Test", tools: ["Pytest", "FastAPI TestClient"],
+    detail:
+      "UV replaces pip, pip-tools, virtualenv, and pyenv with one Rust-fast CLI. Docker keeps dev and production identical — if it runs locally, it runs in production. SQLModel is the FastAPI-native default: Pydantic and SQLAlchemy in one model. SQLAlchemy where full query control is needed. Alembic handles version-controlled migrations for both.",
+  },
+  {
+    num: 4,
+    name: "Test",
+    tools: ["Pytest", "FastAPI TestClient"],
     summary: "Tests run in-process. The suite finishes in seconds.",
-    detail: "Pytest is the de-facto Python testing standard — readable syntax, fixtures for shared setup, a rich plugin ecosystem (pytest-cov, pytest-asyncio, pytest-mock). FastAPI TestClient wraps the ASGI app for in-process HTTP testing without spinning up a real server. Full app context for mocking and inspection." },
-  { num: 5, name: "Release", tools: ["GitHub Actions"],
+    detail:
+      "Pytest is the de-facto Python testing standard — readable syntax, fixtures for shared setup, a rich plugin ecosystem (pytest-cov, pytest-asyncio, pytest-mock). FastAPI TestClient wraps the ASGI app for in-process HTTP testing without spinning up a real server. Full app context for mocking and inspection.",
+  },
+  {
+    num: 5,
+    name: "Release",
+    tools: ["GitHub Actions"],
     summary: "Same tool as DevOps. Triggered by merge to main.",
-    detail: "On merge to main, GitHub Actions runs the pytest suite, builds the Docker image, applies Alembic migrations (alembic upgrade head), and deploys to the k3s cluster. No separate CI/CD server — it all lives with the repo." },
-  { num: 6, name: "Deploy", tools: ["PostgreSQL"],
+    detail:
+      "On merge to main, GitHub Actions runs the pytest suite, builds the Docker image, applies Alembic migrations (alembic upgrade head), and deploys to the k3s cluster. No separate CI/CD server — it all lives with the repo.",
+  },
+  {
+    num: 6,
+    name: "Deploy",
+    tools: ["PostgreSQL"],
     summary: "Battle-tested, ACID, JSONB-capable.",
-    detail: "Postgres handles complex queries, joins, and relationships. JSONB for semi-structured data. Full ACID for transactional integrity. Mature ecosystem (pgAdmin, extensions, cloud providers). Local: runs in Docker on localhost:5432. Production: managed Postgres on DigitalOcean, accessed via private networking inside the k3s cluster." },
-  { num: 7, name: "Operate", tools: ["DBeaver"],
+    detail:
+      "Postgres handles complex queries, joins, and relationships. JSONB for semi-structured data. Full ACID for transactional integrity. Mature ecosystem (pgAdmin, extensions, cloud providers). Local: runs in Docker on localhost:5432. Production: managed Postgres on DigitalOcean, accessed via private networking inside the k3s cluster.",
+  },
+  {
+    num: 7,
+    name: "Operate",
+    tools: ["DBeaver"],
     summary: "GUI client for daily inspection and ad-hoc queries.",
-    detail: "DBeaver is free, cross-platform, and supports every database we touch. Visual query builder, SQL editor with autocomplete, data export/import, ER diagrams. Used for checking that a booking made it to the database, debugging production issues, inspecting migration results after Alembic upgrades, exporting data for analysis." },
-  { num: 8, name: "Monitor", tools: ["Scalar"],
+    detail:
+      "DBeaver is free, cross-platform, and supports every database we touch. Visual query builder, SQL editor with autocomplete, data export/import, ER diagrams. Used for checking that a booking made it to the database, debugging production issues, inspecting migration results after Alembic upgrades, exporting data for analysis.",
+  },
+  {
+    num: 8,
+    name: "Monitor",
+    tools: ["Scalar"],
     summary: "API docs generated from the code. Never out of date.",
-    detail: "Scalar renders interactive documentation from FastAPI's OpenAPI schema at /docs. Auto-generated from code; no separate docs to maintain. \"Try it out\" requests for testing endpoints. Onboarding new team members, sharing API contracts with frontend developers, debugging request and response payloads. Replaces Swagger UI with a cleaner design." },
+    detail:
+      "Scalar renders interactive documentation from FastAPI's OpenAPI schema at /docs. Auto-generated from code; no separate docs to maintain. \"Try it out\" requests for testing endpoints. Onboarding new team members, sharing API contracts with frontend developers, debugging request and response payloads. Replaces Swagger UI with a cleaner design.",
+  },
 ];
 
-const DEVOPS_GIST_URL = "https://gist.github.com/martinhewing/d562e0838a62bf69fe791b3d00f8252e";
+// ── DEVOPS STACK ───────────────────────────────────────────────────────
+// Mirrors the gist at gist.github.com/martinhewing/d562e0838a62bf69fe791b3d00f8252e.
+// The other side of the loop — same eight stages as the Application Stack,
+// but for shipping and running rather than authoring. Lean, cost-aware,
+// minimal overlap between tools.
+
+const DEVOPS_GIST_URL =
+  "https://gist.github.com/martinhewing/d562e0838a62bf69fe791b3d00f8252e";
 
 const DEVOPS_STAGES = [
-  { num: 1, name: "Plan", tools: ["GitHub"],
+  {
+    num: 1,
+    name: "Plan",
+    tools: ["GitHub"],
     summary: "Issues, project boards, milestones — alongside the code.",
-    detail: "GitHub provides Issues, Project Boards, Milestones, and Discussions for planning and tracking work. We already use GitHub for code; keeping planning in the same platform reduces context switching. No separate project management tool needed." },
-  { num: 2, name: "Code", tools: ["GitHub"],
+    detail:
+      "GitHub provides Issues, Project Boards, Milestones, and Discussions for planning and tracking work. We already use GitHub for code; keeping planning in the same platform reduces context switching. No separate project management tool needed.",
+  },
+  {
+    num: 2,
+    name: "Code",
+    tools: ["GitHub"],
     summary: "Repos, branches, pull requests, code review.",
-    detail: "Industry standard for collaborative development. Pull requests, branch protection, and code review workflows are built-in. GitHub Actions integrates directly, making it the backbone of the entire pipeline." },
-  { num: 3, name: "Build", tools: ["Docker", "Scalar"],
+    detail:
+      "Industry standard for collaborative development. Pull requests, branch protection, and code review workflows are built-in. GitHub Actions integrates directly, making it the backbone of the entire pipeline.",
+  },
+  {
+    num: 3,
+    name: "Build",
+    tools: ["Docker", "Scalar"],
     summary: "Portable containers and clean API docs.",
-    detail: "Docker packages the application and dependencies into portable containers — \"works on my machine\" becomes \"works everywhere.\" Consistent environments from dev to production. Scalar provides lightweight, modern, developer-friendly API documentation." },
-  { num: 4, name: "Test", tools: ["Playwright", "Selenium", "Pytest"],
+    detail:
+      "Docker packages the application and dependencies into portable containers — \"works on my machine\" becomes \"works everywhere.\" Consistent environments from dev to production. Scalar provides lightweight, modern, developer-friendly API documentation.",
+  },
+  {
+    num: 4,
+    name: "Test",
+    tools: ["Playwright", "Selenium", "Pytest"],
     summary: "Unit, integration, and end-to-end. All three layers covered.",
-    detail: "Pytest is the natural fit for our Python-first, TDD-driven codebase — fast, flexible, deeply integrated into our workflow. Playwright handles modern end-to-end browser testing. Selenium covers cross-browser automation where broader coverage is needed." },
-  { num: 5, name: "Release", tools: ["GitHub Actions"],
+    detail:
+      "Pytest is the natural fit for our Python-first, TDD-driven codebase — fast, flexible, deeply integrated into our workflow. Playwright handles modern end-to-end browser testing. Selenium covers cross-browser automation where broader coverage is needed.",
+  },
+  {
+    num: 5,
+    name: "Release",
+    tools: ["GitHub Actions"],
     summary: "CI/CD that lives in the repo. Replaces Jenkins.",
-    detail: "Natively integrated with our GitHub repos — no third-party CI server. Triggers Terraform and deploys to k3s. The glue between code and infrastructure. On every push: tests, image build, migration check, deploy." },
-  { num: 6, name: "Deploy", tools: ["k3s"],
+    detail:
+      "Natively integrated with our GitHub repos — no third-party CI server. Triggers Terraform and deploys to k3s. The glue between code and infrastructure. On every push: tests, image build, migration check, deploy.",
+  },
+  {
+    num: 6,
+    name: "Deploy",
+    tools: ["k3s"],
     summary: "Lightweight Kubernetes on a single Droplet.",
-    detail: "Full managed Kubernetes (DOKS) adds cost without meaningful benefit at our scale. k3s gives us rolling deployments, self-healing, and scaling at ~$12-24/mo for the Droplet rather than managed cluster fees. Production-ready Kubernetes power without the bill." },
-  { num: 7, name: "Operate", tools: ["Terraform", "DigitalOcean", "Spaces"],
+    detail:
+      "Full managed Kubernetes (DOKS) adds cost without meaningful benefit at our scale. k3s gives us rolling deployments, self-healing, and scaling at ~$12-24/mo for the Droplet rather than managed cluster fees. Production-ready Kubernetes power without the bill.",
+  },
+  {
+    num: 7,
+    name: "Operate",
+    tools: ["Terraform", "DigitalOcean", "Spaces"],
     summary: "Infrastructure as code. S3-compatible object storage.",
-    detail: "Terraform provisions and manages DigitalOcean infrastructure as code — Droplets, Spaces buckets, firewalls, databases all from one provider. Replaced Ansible and Pulumi (redundant with Terraform). Spaces at ~$5/mo for 250GB is the most cost-effective storage in the stack." },
-  { num: 8, name: "Monitor", tools: ["Grafana", "Prometheus"],
+    detail:
+      "Terraform provisions and manages DigitalOcean infrastructure as code — Droplets, Spaces buckets, firewalls, databases all from one provider. Replaced Ansible and Pulumi (redundant with Terraform). Spaces at ~$5/mo for 250GB is the most cost-effective storage in the stack.",
+  },
+  {
+    num: 8,
+    name: "Monitor",
+    tools: ["Grafana", "Prometheus"],
     summary: "The de facto Kubernetes monitoring pair.",
-    detail: "Prometheus scrapes and stores metrics from services and the k3s cluster. Grafana visualises them through dashboards and powers alerting. Battle-tested, open source, free. Replaced OpenTelemetry (overkill without microservices distributed tracing) and PostHog (product analytics is a separate concern)." },
+    detail:
+      "Prometheus scrapes and stores metrics from services and the k3s cluster. Grafana visualises them through dashboards and powers alerting. Battle-tested, open source, free. Replaced OpenTelemetry (overkill without microservices distributed tracing) and PostHog (product analytics is a separate concern).",
+  },
 ];
 
 const CONTRIB_PRINCIPLES = [
@@ -238,151 +514,307 @@ const CONTRIB_STEPS = [
 
 const CONTRIB_ENTRIES = [
   {
-    id: 1, project: "tiangolo/sqlmodel",
+    id: 1,
+    project: "tiangolo/sqlmodel",
     projectUrl: "https://github.com/fastapi/sqlmodel",
-    type: "Docs / typing PR", outcome: "Reverted", outcomeKind: "reverted",
+    type: "Docs / typing PR",
+    outcome: "Reverted",
+    outcomeKind: "reverted",
     trigger: "Saw Optional[T] where modern T | None looked missing.",
     lesson: "Ask why before assuming inconsistency. IDE warnings are gates.",
-    detail: "PyCharm flagged Team | None as invalid on a SQLModel relationship annotation. We dismissed the warning as noise and pushed. Maintainer svlandeg replied that SQLAlchemy evaluates Relationship annotations at runtime and needs a bare class name — column fields and relationship fields are different machinery. Reverted. The rule we settled on: cannot disprove, do not ship.",
+    detail:
+      "PyCharm flagged Team | None as invalid on a SQLModel relationship annotation. We dismissed the warning as noise and pushed. Maintainer svlandeg replied that SQLAlchemy evaluates Relationship annotations at runtime and needs a bare class name — column fields and relationship fields are different machinery. Reverted. The rule we settled on: cannot disprove, do not ship.",
   },
   {
-    id: 2, project: "cartesia-ai/cartesia-python",
+    id: 2,
+    project: "cartesia-ai/cartesia-python",
     projectUrl: "https://github.com/cartesia-ai/cartesia-python",
-    type: "Feature-request issue", outcome: "Won't-fix", outcomeKind: "wontfix",
+    type: "Feature-request issue",
+    outcome: "Won't-fix",
+    outcomeKind: "wontfix",
     trigger: "~40 lines of LaTeX regex before every TTS call.",
     lesson: "Push text-shaping to the LLM, not the SDK. One ask per issue.",
-    detail: "Asked for a transcript_preprocessor hook on AsyncCartesia, with our production LaTeX-stripping regex as a reference implementation. charlotte-zhuang closed within a day: \"Good idea, but language models do an excellent job of this already — ask it to convert text into a transcript to be read word-for-word.\" One prompt sentence replaces the regex module. Upstream \"no\" is usually about scope, not rejection.",
+    detail:
+      "Asked for a transcript_preprocessor hook on AsyncCartesia, with our production LaTeX-stripping regex as a reference implementation. charlotte-zhuang closed within a day: \"Good idea, but language models do an excellent job of this already — ask it to convert text into a transcript to be read word-for-word.\" One prompt sentence replaces the regex module. Upstream \"no\" is usually about scope, not rejection.",
   },
 ];
 
 // ── ATOMS ──────────────────────────────────────────────────────────────
+
 function MetaTag({ children, accent = false }) {
   return (
-    <span style={{
-      display: "inline-block",
-      background: accent ? t.accentFill : t.surface1,
-      border: `1px solid ${accent ? t.accentBorder : t.borderSoft}`,
-      color: accent ? t.accentInk : t.inkTertiary,
-      fontFamily: FONT_MONO, fontSize: 11, padding: "3px 9px",
-      borderRadius: 3, letterSpacing: 0.3, whiteSpace: "nowrap",
-    }}>{children}</span>
+    <span
+      style={{
+        display: "inline-block",
+        background: accent ? t.accentFill : t.surface1,
+        border: `1px solid ${accent ? t.accentBorder : t.borderSoft}`,
+        color: accent ? t.accentInk : t.inkTertiary,
+        fontFamily: FONT_MONO,
+        fontSize: 11,
+        padding: "3px 9px",
+        borderRadius: 3,
+        letterSpacing: 0.3,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {children}
+    </span>
   );
 }
 
 function SectionRule() {
-  return <div style={{
-    height: 1,
-    background: `linear-gradient(90deg, ${t.borderMedium} 0%, ${t.borderSoft} 60%, transparent 100%)`,
-    margin: "0 0 2.5rem",
-  }} />;
+  return (
+    <div
+      style={{
+        height: 1,
+        background: `linear-gradient(90deg, ${t.borderMedium} 0%, ${t.borderSoft} 60%, transparent 100%)`,
+        margin: "0 0 2.5rem",
+      }}
+    />
+  );
 }
 
 function CategoryDot({ category }) {
-  const map = { voice: t.accentBorder, worksheet: t.borderStrong, tool: t.inkTertiary };
-  return <span style={{
-    display: "inline-block", width: 6, height: 6, borderRadius: "50%",
-    background: map[category] || t.borderMedium, marginRight: 8, verticalAlign: "middle",
-  }} />;
+  const map = {
+    agent: t.accentBorder,
+    "learning-tool": t.borderStrong,
+    "developer-tool": t.inkTertiary,
+    simulation: t.borderMedium,
+  };
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        width: 6,
+        height: 6,
+        borderRadius: "50%",
+        background: map[category] || t.borderMedium,
+        marginRight: 8,
+        verticalAlign: "middle",
+      }}
+    />
+  );
 }
 
 // ── FACTORY CARD ───────────────────────────────────────────────────────
+
 function FactoryCard({ factory, expanded, onToggle }) {
   const [hover, setHover] = useState(false);
-  const isVoice = factory.category === "voice";
-  const accent = isVoice ? t.accentBorder : t.borderStrong;
+
+  const isAgent = factory.category === "agent";
+  const accent = isAgent ? t.accentBorder : t.borderStrong;
 
   return (
-    <article onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+    <article
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
         background: t.paper,
         border: `1px solid ${hover ? t.borderMedium : t.borderSoft}`,
-        borderRadius: 10, marginBottom: 18, overflow: "hidden",
+        borderRadius: 10,
+        marginBottom: 18,
+        overflow: "hidden",
         transition: "all 0.18s ease",
         boxShadow: hover ? `0 1px 0 ${t.borderSoft}, 0 8px 24px -16px rgba(43,40,38,0.18)` : "none",
-      }}>
+      }}
+    >
+      {/* ── Card header (always visible) ── */}
       <header style={{ padding: "20px 26px 16px", position: "relative" }}>
-        <div style={{
-          position: "absolute", left: 0, top: 24, bottom: 24, width: 3,
-          background: accent, borderRadius: "0 2px 2px 0", opacity: isVoice ? 1 : 0.55,
-        }} />
+        {/* Left edge accent strip */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 24,
+            bottom: 24,
+            width: 3,
+            background: accent,
+            borderRadius: "0 2px 2px 0",
+            opacity: isVoice ? 1 : 0.55,
+          }}
+        />
 
-        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+        {/* Title row */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            gap: 18,
+            flexWrap: "wrap",
+          }}
+        >
           <div style={{ flex: "1 1 320px", minWidth: 0 }}>
-            <div style={{
-              fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-              letterSpacing: 0.6, textTransform: "uppercase", fontWeight: 600,
-              marginBottom: 6, display: "flex", alignItems: "center", gap: 10,
-            }}>
-              <span><CategoryDot category={factory.category} />
-                {factory.category === "voice" ? "Voice instance" : factory.category === "worksheet" ? "Worksheet" : "Tool"}
+            <div
+              style={{
+                fontFamily: FONT_MONO,
+                fontSize: 10,
+                color: t.inkTertiary,
+                letterSpacing: 0.6,
+                textTransform: "uppercase",
+                fontWeight: 600,
+                marginBottom: 6,
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <span>
+                <CategoryDot category={factory.category} />
+                {factory.category === "agent"
+                  ? "Agent"
+                  : factory.category === "learning-tool"
+                  ? "Learning tool"
+                  : factory.category === "developer-tool"
+                  ? "Developer tool"
+                  : factory.category === "simulation"
+                  ? "Simulation"
+                  : "Project"}
               </span>
               {factory.isNew && (
-                <span style={{
-                  background: t.accentFill, color: t.accentInk, border: `1px solid ${t.accentBorder}`,
-                  padding: "1px 7px", borderRadius: 3, fontSize: 9, letterSpacing: 0.6, fontWeight: 700,
-                }}>NEW</span>
+                <span
+                  style={{
+                    background: t.accentFill,
+                    color: t.accentInk,
+                    border: `1px solid ${t.accentBorder}`,
+                    padding: "1px 7px",
+                    borderRadius: 3,
+                    fontSize: 9,
+                    letterSpacing: 0.6,
+                    fontWeight: 700,
+                  }}
+                >
+                  NEW
+                </span>
               )}
               {factory.deployed === false && (
-                <span style={{ color: t.inkGhost, fontStyle: "italic", textTransform: "none", letterSpacing: 0 }}>local only</span>
+                <span style={{ color: t.inkGhost, fontStyle: "italic", textTransform: "none", letterSpacing: 0 }}>
+                  local only
+                </span>
               )}
             </div>
 
-            <h2 style={{
-              fontFamily: FONT_SERIF, fontSize: 26, fontWeight: 700,
-              color: t.inkPrimary, margin: "0 0 8px", letterSpacing: "-0.012em", lineHeight: 1.2,
-            }}>{factory.name}</h2>
+            <h2
+              style={{
+                fontFamily: FONT_SERIF,
+                fontSize: 26,
+                fontWeight: 700,
+                color: t.inkPrimary,
+                margin: "0 0 8px",
+                letterSpacing: "-0.012em",
+                lineHeight: 1.2,
+              }}
+            >
+              {factory.name}
+            </h2>
 
-            <p style={{
-              fontFamily: FONT_SANS, fontSize: 14.5, color: t.inkSecondary,
-              lineHeight: 1.55, margin: 0, fontStyle: "italic",
-            }}>{factory.tagline}</p>
+            <p
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: 14.5,
+                color: t.inkSecondary,
+                lineHeight: 1.55,
+                margin: 0,
+                fontStyle: "italic",
+              }}
+            >
+              {factory.tagline}
+            </p>
           </div>
 
+          {/* Port badge — fixed right */}
           <div style={{ flexShrink: 0 }}>
             <MetaTag accent={isVoice}>:{factory.port}</MetaTag>
           </div>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
+        {/* Tag strip */}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 6,
+            marginTop: 14,
+          }}
+        >
           {factory.python && <MetaTag>{factory.python}</MetaTag>}
           {factory.tests && <MetaTag>{factory.tests}</MetaTag>}
           {factory.license && <MetaTag>{factory.license}</MetaTag>}
         </div>
 
+        {/* Live URL */}
         {factory.liveUrl && (
-          <div style={{ marginTop: 14, fontFamily: FONT_MONO, fontSize: 12, color: t.inkTertiary }}>
+          <div
+            style={{
+              marginTop: 14,
+              fontFamily: FONT_MONO,
+              fontSize: 12,
+              color: t.inkTertiary,
+            }}
+          >
             <span style={{ color: t.inkGhost, marginRight: 6 }}>↳</span>
-            <a href={`https://${factory.liveUrl.replace(/^https?:\/\//, "")}`}
+            <a
+              href={factory.liveUrl.startsWith("http") || factory.liveUrl.startsWith("localhost")
+                ? `https://${factory.liveUrl.replace(/^https?:\/\//, "")}`
+                : `https://${factory.liveUrl}`}
               style={{
-                color: t.accentInk, textDecoration: "none",
-                borderBottom: `1px solid ${t.accentFill}`, paddingBottom: 1, transition: "border-color 0.15s",
+                color: t.accentInk,
+                textDecoration: "none",
+                borderBottom: `1px solid ${t.accentFill}`,
+                paddingBottom: 1,
+                transition: "border-color 0.15s",
               }}
-              onMouseEnter={e => e.currentTarget.style.borderBottomColor = t.accentBorder}
-              onMouseLeave={e => e.currentTarget.style.borderBottomColor = t.accentFill}>
+              onMouseEnter={(e) => (e.currentTarget.style.borderBottomColor = t.accentBorder)}
+              onMouseLeave={(e) => (e.currentTarget.style.borderBottomColor = t.accentFill)}
+            >
               {factory.liveUrl}
             </a>
           </div>
         )}
       </header>
 
-      <div onClick={onToggle}
+      {/* ── Expand/collapse toggle ── */}
+      <div
+        onClick={onToggle}
         style={{
-          padding: "10px 26px", borderTop: `1px solid ${t.borderSoft}`, background: t.surface1,
-          cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center",
+          padding: "10px 26px",
+          borderTop: `1px solid ${t.borderSoft}`,
+          background: t.surface1,
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
           transition: "background 0.15s",
         }}
-        onMouseEnter={e => e.currentTarget.style.background = t.surface2}
-        onMouseLeave={e => e.currentTarget.style.background = t.surface1}>
-        <span style={{
-          fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-          letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 600,
-        }}>{expanded ? "Collapse details" : "View domain · curriculum · links"}</span>
-        <span style={{
-          fontFamily: FONT_MONO, fontSize: 14, color: t.inkTertiary,
-          transform: expanded ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s",
-        }}>⌄</span>
+        onMouseEnter={(e) => (e.currentTarget.style.background = t.surface2)}
+        onMouseLeave={(e) => (e.currentTarget.style.background = t.surface1)}
+      >
+        <span
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 10,
+            color: t.inkTertiary,
+            letterSpacing: 0.5,
+            textTransform: "uppercase",
+            fontWeight: 600,
+          }}
+        >
+          {expanded ? "Collapse details" : "View domain · curriculum · links"}
+        </span>
+        <span
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 14,
+            color: t.inkTertiary,
+            transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s",
+          }}
+        >
+          ⌄
+        </span>
       </div>
 
+      {/* ── Expanded body ── */}
       {expanded && (
         <div style={{ padding: "22px 26px 24px", background: t.paper, borderTop: `1px solid ${t.borderSoft}` }}>
           <DefRow label="Domain"     value={factory.domain} />
@@ -390,15 +822,52 @@ function FactoryCard({ factory, expanded, onToggle }) {
           <DefRow label="Curriculum" value={factory.curriculum} />
           {factory.extra && <DefRow label="Notable" value={factory.extra} />}
 
-          <div style={{
-            marginTop: 20, paddingTop: 18, borderTop: `1px solid ${t.borderSoft}`,
-            display: "flex", flexDirection: "column", gap: 8,
-            fontFamily: FONT_MONO, fontSize: 12,
-          }}>
-            {factory.apiDocs    && <LinkRow kind="API explorer" href={factory.apiDocs} label={factory.apiDocs.replace(/^https?:\/\//, "")} />}
-            {factory.sessionPath && <LinkRow kind="Session UI" label={factory.sessionPath} />}
-            {factory.cheatsheet && factory.cheatsheet.url !== "#" && <LinkRow kind="Cheat sheet" href={factory.cheatsheet.url} label={factory.cheatsheet.label} />}
-            {factory.repo       && <LinkRow kind="Repo" href={`https://${factory.repo}`} label={factory.repo} />}
+          {/* Links cluster */}
+          <div
+            style={{
+              marginTop: 20,
+              paddingTop: 18,
+              borderTop: `1px solid ${t.borderSoft}`,
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              fontFamily: FONT_MONO,
+              fontSize: 12,
+            }}
+          >
+            {factory.apiDocs && (
+              <LinkRow
+                kind="API explorer"
+                href={factory.apiDocs}
+                label={factory.apiDocs.replace(/^https?:\/\//, "")}
+              />
+            )}
+            {factory.sessionPath && (
+              <LinkRow
+                kind="Session UI"
+                label={factory.sessionPath}
+              />
+            )}
+            {factory.cheatsheet && factory.cheatsheet.url !== "#" && (
+              <LinkRow
+                kind="Cheat sheet"
+                href={factory.cheatsheet.url}
+                label={factory.cheatsheet.label}
+              />
+            )}
+            {factory.repo && (
+              <LinkRow
+                kind="Repo"
+                href={`https://${factory.repo}`}
+                label={factory.repo}
+              />
+            )}
+            {factory.repoPrivate && !factory.repo && (
+              <LinkRow
+                kind="Repo"
+                label="Private repo"
+              />
+            )}
           </div>
         </div>
       )}
@@ -408,15 +877,38 @@ function FactoryCard({ factory, expanded, onToggle }) {
 
 function DefRow({ label, value }) {
   return (
-    <div style={{
-      display: "grid", gridTemplateColumns: "120px 1fr", gap: 18,
-      padding: "10px 0", borderBottom: `1px solid ${t.borderSoft}`,
-    }}>
-      <div style={{
-        fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-        letterSpacing: 0.6, textTransform: "uppercase", fontWeight: 600, paddingTop: 2,
-      }}>{label}</div>
-      <div style={{ fontFamily: FONT_SANS, fontSize: 13.5, color: t.inkSecondary, lineHeight: 1.6 }}>{value}</div>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "120px 1fr",
+        gap: 18,
+        padding: "10px 0",
+        borderBottom: `1px solid ${t.borderSoft}`,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 10,
+          color: t.inkTertiary,
+          letterSpacing: 0.6,
+          textTransform: "uppercase",
+          fontWeight: 600,
+          paddingTop: 2,
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontFamily: FONT_SANS,
+          fontSize: 13.5,
+          color: t.inkSecondary,
+          lineHeight: 1.6,
+        }}
+      >
+        {value}
+      </div>
     </div>
   );
 }
@@ -424,60 +916,143 @@ function DefRow({ label, value }) {
 function LinkRow({ kind, href, label }) {
   return (
     <div style={{ display: "flex", gap: 14, alignItems: "baseline" }}>
-      <span style={{
-        fontSize: 9, letterSpacing: 0.7, textTransform: "uppercase",
-        color: t.inkTertiary, fontWeight: 700, flexShrink: 0, width: 88,
-      }}>{kind}</span>
-      {href ? (
-        <a href={href} style={{
-          color: t.inkSecondary, textDecoration: "none",
-          borderBottom: `1px dotted ${t.borderMedium}`, paddingBottom: 1, wordBreak: "break-all",
+      <span
+        style={{
+          fontSize: 9,
+          letterSpacing: 0.7,
+          textTransform: "uppercase",
+          color: t.inkTertiary,
+          fontWeight: 700,
+          flexShrink: 0,
+          width: 88,
         }}
-          onMouseEnter={e => e.currentTarget.style.color = t.accentInk}
-          onMouseLeave={e => e.currentTarget.style.color = t.inkSecondary}>{label}</a>
+      >
+        {kind}
+      </span>
+      {href ? (
+        <a
+          href={href}
+          style={{
+            color: t.inkSecondary,
+            textDecoration: "none",
+            borderBottom: `1px dotted ${t.borderMedium}`,
+            paddingBottom: 1,
+            wordBreak: "break-all",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = t.accentInk)}
+          onMouseLeave={(e) => (e.currentTarget.style.color = t.inkSecondary)}
+        >
+          {label}
+        </a>
       ) : (
-        <code style={{ color: t.inkSecondary, fontSize: 11.5, background: t.surface1, padding: "2px 7px", borderRadius: 3 }}>{label}</code>
+        <code style={{ color: t.inkSecondary, fontSize: 11.5, background: t.surface1, padding: "2px 7px", borderRadius: 3 }}>
+          {label}
+        </code>
       )}
     </div>
   );
 }
 
 // ── HEADER ─────────────────────────────────────────────────────────────
+
 function PageHeader() {
   return (
     <header style={{ marginBottom: "3.5rem" }}>
-      <div style={{
-        fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-        letterSpacing: 1.4, textTransform: "uppercase", fontWeight: 600, marginBottom: 18,
-      }}>Anthropic Claude · Cartesia voice · FSM + DLL session engine</div>
+      {/* Eyebrow */}
+      <div
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 10,
+          color: t.inkTertiary,
+          letterSpacing: 1.4,
+          textTransform: "uppercase",
+          fontWeight: 600,
+          marginBottom: 18,
+        }}
+      >
+        Anthropic Claude · Cartesia voice · Production AI / ML
+      </div>
 
-      <h1 style={{
-        fontFamily: FONT_SERIF, fontSize: "clamp(40px, 6vw, 64px)", fontWeight: 700,
-        color: t.inkPrimary, margin: "0 0 18px", letterSpacing: "-0.022em", lineHeight: 1.05,
-      }}>Factory Hub</h1>
+      {/* Display title */}
+      <h1
+        style={{
+          fontFamily: FONT_SERIF,
+          fontSize: "clamp(40px, 6vw, 64px)",
+          fontWeight: 700,
+          color: t.inkPrimary,
+          margin: "0 0 18px",
+          letterSpacing: "-0.022em",
+          lineHeight: 1.05,
+        }}
+      >
+        Connect AI ML
+      </h1>
 
-      <p style={{
-        fontFamily: FONT_SERIF, fontSize: 19, color: t.inkSecondary,
-        lineHeight: 1.55, margin: "0 0 22px", fontStyle: "italic", maxWidth: 640,
-      }}>Voice-driven AI tutoring and interview simulation, built on a shared session engine. Seven instances, one architecture.</p>
+      {/* Lede */}
+      <p
+        style={{
+          fontFamily: FONT_SERIF,
+          fontSize: 19,
+          color: t.inkSecondary,
+          lineHeight: 1.55,
+          margin: "0 0 22px",
+          fontStyle: "italic",
+          maxWidth: 640,
+        }}
+      >
+        Production AI and ML projects across voice, web, and scientific computing.
+        Eight surfaces, three engineering substrates.
+      </p>
 
-      <div style={{
-        display: "flex", flexWrap: "wrap", gap: 0, marginTop: 28,
-        borderTop: `1px solid ${t.borderSoft}`, borderBottom: `1px solid ${t.borderSoft}`,
-      }}>
-        {[["7", "instances"], ["2", "agent architecture"], ["FSM + DLL", "state engine"], ["~40 ms", "first-audio latency"]].map(([val, lbl], i, arr) => (
-          <div key={lbl} style={{
-            flex: "1 1 140px", padding: "16px 20px",
-            borderRight: i < arr.length - 1 ? `1px solid ${t.borderSoft}` : "none",
-          }}>
-            <div style={{
-              fontFamily: FONT_SERIF, fontSize: 22, fontWeight: 700,
-              color: t.inkPrimary, letterSpacing: "-0.01em", lineHeight: 1.1,
-            }}>{val}</div>
-            <div style={{
-              fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-              letterSpacing: 0.5, textTransform: "uppercase", marginTop: 4,
-            }}>{lbl}</div>
+      {/* Stat strip */}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 0,
+          marginTop: 28,
+          borderTop: `1px solid ${t.borderSoft}`,
+          borderBottom: `1px solid ${t.borderSoft}`,
+        }}
+      >
+        {[
+          ["8",  "projects"],
+          ["3",  "substrates"],
+          ["FastAPI + SQLModel", "Python stack"],
+          ["~40 ms", "first-audio latency"],
+        ].map(([val, lbl], i, arr) => (
+          <div
+            key={lbl}
+            style={{
+              flex: "1 1 140px",
+              padding: "16px 20px",
+              borderRight: i < arr.length - 1 ? `1px solid ${t.borderSoft}` : "none",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: FONT_SERIF,
+                fontSize: 22,
+                fontWeight: 700,
+                color: t.inkPrimary,
+                letterSpacing: "-0.01em",
+                lineHeight: 1.1,
+              }}
+            >
+              {val}
+            </div>
+            <div
+              style={{
+                fontFamily: FONT_MONO,
+                fontSize: 10,
+                color: t.inkTertiary,
+                letterSpacing: 0.5,
+                textTransform: "uppercase",
+                marginTop: 4,
+              }}
+            >
+              {lbl}
+            </div>
           </div>
         ))}
       </div>
@@ -485,30 +1060,58 @@ function PageHeader() {
   );
 }
 
+// ── CATEGORY FILTER ────────────────────────────────────────────────────
+
 function CategoryFilter({ active, onChange }) {
   const keys = Object.keys(CATEGORIES);
   return (
-    <nav style={{ display: "flex", gap: 0, marginBottom: 32, borderBottom: `1px solid ${t.borderSoft}` }}>
-      {keys.map(k => {
+    <nav
+      style={{
+        display: "flex",
+        gap: 0,
+        marginBottom: 32,
+        borderBottom: `1px solid ${t.borderSoft}`,
+      }}
+    >
+      {keys.map((k) => {
         const cat = CATEGORIES[k];
         const isActive = active === k;
         return (
-          <button key={k} onClick={() => onChange(k)} style={{
-            background: "transparent", border: "none",
-            borderBottom: isActive ? `2px solid ${t.accentBorder}` : "2px solid transparent",
-            color: isActive ? t.accentInk : t.inkTertiary,
-            fontFamily: FONT_SANS, fontSize: 13, fontWeight: isActive ? 600 : 500,
-            padding: "12px 22px 12px 0", marginRight: 28, cursor: "pointer",
-            letterSpacing: 0.2, transition: "color 0.15s",
-            display: "inline-flex", alignItems: "center", gap: 8,
-          }}>
+          <button
+            key={k}
+            onClick={() => onChange(k)}
+            style={{
+              background: "transparent",
+              border: "none",
+              borderBottom: isActive ? `2px solid ${t.accentBorder}` : "2px solid transparent",
+              color: isActive ? t.accentInk : t.inkTertiary,
+              fontFamily: FONT_SANS,
+              fontSize: 13,
+              fontWeight: isActive ? 600 : 500,
+              padding: "12px 22px 12px 0",
+              marginRight: 28,
+              cursor: "pointer",
+              letterSpacing: 0.2,
+              transition: "color 0.15s",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
             {cat.label}
-            <span style={{
-              fontFamily: FONT_MONO, fontSize: 10,
-              color: isActive ? t.accentBorder : t.inkGhost,
-              background: isActive ? t.accentFill : t.surface1,
-              padding: "1px 6px", borderRadius: 2, fontWeight: 600,
-            }}>{cat.count()}</span>
+            <span
+              style={{
+                fontFamily: FONT_MONO,
+                fontSize: 10,
+                color: isActive ? t.accentBorder : t.inkGhost,
+                background: isActive ? t.accentFill : t.surface1,
+                padding: "1px 6px",
+                borderRadius: 2,
+                fontWeight: 600,
+              }}
+            >
+              {cat.count()}
+            </span>
           </button>
         );
       })}
@@ -516,21 +1119,51 @@ function CategoryFilter({ active, onChange }) {
   );
 }
 
+// ── ARCHITECTURE SECTION ───────────────────────────────────────────────
+
 function SectionHeading({ eyebrow, title, lede }) {
   return (
     <div style={{ marginBottom: 32 }}>
-      <div style={{
-        fontFamily: FONT_MONO, fontSize: 10, color: t.accentInk,
-        letterSpacing: 1.4, textTransform: "uppercase", fontWeight: 700, marginBottom: 10,
-      }}>{eyebrow}</div>
-      <h2 style={{
-        fontFamily: FONT_SERIF, fontSize: 32, fontWeight: 700,
-        color: t.inkPrimary, margin: "0 0 12px", letterSpacing: "-0.015em", lineHeight: 1.15,
-      }}>{title}</h2>
-      {lede && <p style={{
-        fontFamily: FONT_SANS, fontSize: 14.5, color: t.inkSecondary,
-        lineHeight: 1.6, margin: 0, maxWidth: 600,
-      }}>{lede}</p>}
+      <div
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 10,
+          color: t.accentInk,
+          letterSpacing: 1.4,
+          textTransform: "uppercase",
+          fontWeight: 700,
+          marginBottom: 10,
+        }}
+      >
+        {eyebrow}
+      </div>
+      <h2
+        style={{
+          fontFamily: FONT_SERIF,
+          fontSize: 32,
+          fontWeight: 700,
+          color: t.inkPrimary,
+          margin: "0 0 12px",
+          letterSpacing: "-0.015em",
+          lineHeight: 1.15,
+        }}
+      >
+        {title}
+      </h2>
+      {lede && (
+        <p
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 14.5,
+            color: t.inkSecondary,
+            lineHeight: 1.6,
+            margin: 0,
+            maxWidth: 600,
+          }}
+        >
+          {lede}
+        </p>
+      )}
     </div>
   );
 }
@@ -538,20 +1171,87 @@ function SectionHeading({ eyebrow, title, lede }) {
 function ArchitectureSection() {
   return (
     <section style={{ marginTop: 80, marginBottom: 60 }}>
-      <SectionHeading eyebrow="Shared engine" title="One architecture, seven surfaces"
-        lede="All instances share the same foundational engine. Voice-driven instances use the full stack; worksheet instances draw on the curriculum and taxonomy layers." />
+      <SectionHeading
+        eyebrow="Substrates"
+        title="Three engineering substrates"
+        lede="The eight projects don't share one engine — they share three. Each substrate is a coherent stack reused across multiple projects, with its own discipline and idioms."
+      />
+
       <div style={{ marginTop: 32 }}>
         {ARCHITECTURE.map((row, i) => (
-          <div key={row.name} style={{
-            display: "grid", gridTemplateColumns: "200px 1fr", gap: 28, padding: "18px 0",
-            borderTop: i === 0 ? `1px solid ${t.borderMedium}` : `1px solid ${t.borderSoft}`,
-            borderBottom: i === ARCHITECTURE.length - 1 ? `1px solid ${t.borderMedium}` : "none",
-          }}>
-            <div style={{
-              fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 700,
-              color: t.inkPrimary, letterSpacing: "-0.005em",
-            }}>{row.name}</div>
-            <div style={{ fontFamily: FONT_SANS, fontSize: 14, color: t.inkSecondary, lineHeight: 1.65 }}>{row.desc}</div>
+          <div
+            key={row.name}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "200px 1fr",
+              gap: 28,
+              padding: "20px 0",
+              borderTop: i === 0 ? `1px solid ${t.borderMedium}` : `1px solid ${t.borderSoft}`,
+              borderBottom: i === ARCHITECTURE.length - 1 ? `1px solid ${t.borderMedium}` : "none",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: FONT_SERIF,
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: t.inkPrimary,
+                  letterSpacing: "-0.005em",
+                  marginBottom: 6,
+                }}
+              >
+                {row.name}
+              </div>
+              {row.projects && (
+                <div
+                  style={{
+                    fontFamily: FONT_MONO,
+                    fontSize: 10,
+                    color: t.inkTertiary,
+                    letterSpacing: 0.4,
+                    textTransform: "uppercase",
+                    fontWeight: 600,
+                  }}
+                >
+                  {row.projects.length} project{row.projects.length === 1 ? "" : "s"}
+                </div>
+              )}
+            </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: FONT_SANS,
+                  fontSize: 14,
+                  color: t.inkSecondary,
+                  lineHeight: 1.65,
+                  marginBottom: row.projects ? 12 : 0,
+                }}
+              >
+                {row.desc}
+              </div>
+              {row.projects && (
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {row.projects.map((p) => (
+                    <span
+                      key={p}
+                      style={{
+                        fontFamily: FONT_MONO,
+                        fontSize: 10.5,
+                        color: t.inkSecondary,
+                        background: t.surface1,
+                        border: `1px solid ${t.borderSoft}`,
+                        padding: "3px 9px",
+                        borderRadius: 3,
+                        letterSpacing: 0.3,
+                      }}
+                    >
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -559,58 +1259,137 @@ function ArchitectureSection() {
   );
 }
 
+// ── APPLICATION STACK ──────────────────────────────────────────────────
+// "Workshop" section — the eight stages from Plan to Monitor. Each stage
+// is collapsible: collapsed shows the tools as chips with a one-line
+// summary; expanded reveals the "why we chose it" reasoning.
+
 function AppStackStage({ stage, open, onToggle }) {
   return (
-    <div style={{
-      marginBottom: 8, background: t.paper,
-      border: `1px solid ${open ? t.borderMedium : t.borderSoft}`,
-      borderRadius: 8, overflow: "hidden", transition: "border-color 0.15s",
-    }}>
-      <div onClick={onToggle} style={{
-        padding: "14px 18px", display: "grid",
-        gridTemplateColumns: "32px 1fr auto", gap: 16,
-        alignItems: "center", cursor: "pointer",
-      }}>
-        <div style={{
-          fontFamily: FONT_MONO, fontSize: 11, color: t.accentInk,
-          background: t.accentFill, border: `1px solid ${t.accentBorder}`,
-          width: 24, height: 24, borderRadius: "50%",
-          display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600,
-        }}>{stage.num}</div>
-
-        <div style={{ minWidth: 0 }}>
-          <div style={{
-            fontFamily: FONT_SERIF, fontSize: 16, fontWeight: 700,
-            color: t.inkPrimary, letterSpacing: "-0.005em", marginBottom: 8,
-          }}>{stage.name}</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 7 }}>
-            {stage.tools.map(tool => (
-              <span key={tool} style={{
-                fontFamily: FONT_MONO, fontSize: 10.5, color: t.inkTertiary,
-                background: t.surface1, border: `1px solid ${t.borderSoft}`,
-                padding: "2px 8px", borderRadius: 3, letterSpacing: 0.3,
-              }}>{tool}</span>
-            ))}
-          </div>
-          <div style={{
-            fontFamily: FONT_SANS, fontSize: 12.5, color: t.inkSecondary,
-            lineHeight: 1.5, fontStyle: "italic",
-          }}>{stage.summary}</div>
+    <div
+      style={{
+        marginBottom: 8,
+        background: t.paper,
+        border: `1px solid ${open ? t.borderMedium : t.borderSoft}`,
+        borderRadius: 8,
+        overflow: "hidden",
+        transition: "border-color 0.15s",
+      }}
+    >
+      <div
+        onClick={onToggle}
+        style={{
+          padding: "14px 18px",
+          display: "grid",
+          gridTemplateColumns: "32px 1fr auto",
+          gap: 16,
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        {/* Stage number */}
+        <div
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            color: t.accentInk,
+            background: t.accentFill,
+            border: `1px solid ${t.accentBorder}`,
+            width: 24,
+            height: 24,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontWeight: 600,
+          }}
+        >
+          {stage.num}
         </div>
 
-        <span style={{
-          fontFamily: FONT_MONO, fontSize: 14, color: t.inkTertiary,
-          transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          transition: "transform 0.2s", flexShrink: 0,
-        }}>⌄</span>
+        {/* Name + tool chips + summary */}
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontFamily: FONT_SERIF,
+              fontSize: 16,
+              fontWeight: 700,
+              color: t.inkPrimary,
+              letterSpacing: "-0.005em",
+              marginBottom: 8,
+            }}
+          >
+            {stage.name}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 5,
+              marginBottom: 7,
+            }}
+          >
+            {stage.tools.map((tool) => (
+              <span
+                key={tool}
+                style={{
+                  fontFamily: FONT_MONO,
+                  fontSize: 10.5,
+                  color: t.inkTertiary,
+                  background: t.surface1,
+                  border: `1px solid ${t.borderSoft}`,
+                  padding: "2px 8px",
+                  borderRadius: 3,
+                  letterSpacing: 0.3,
+                }}
+              >
+                {tool}
+              </span>
+            ))}
+          </div>
+          <div
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: 12.5,
+              color: t.inkSecondary,
+              lineHeight: 1.5,
+              fontStyle: "italic",
+            }}
+          >
+            {stage.summary}
+          </div>
+        </div>
+
+        {/* Chevron */}
+        <span
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 14,
+            color: t.inkTertiary,
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 0.2s",
+            flexShrink: 0,
+          }}
+        >
+          ⌄
+        </span>
       </div>
 
+      {/* Expanded body */}
       {open && (
-        <div style={{
-          padding: "14px 18px 18px",
-          borderTop: `1px solid ${t.borderSoft}`, background: t.surface1,
-          fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.65,
-        }}>{stage.detail}</div>
+        <div
+          style={{
+            padding: "14px 18px 18px",
+            borderTop: `1px solid ${t.borderSoft}`,
+            background: t.surface1,
+            fontFamily: FONT_SANS,
+            fontSize: 13,
+            color: t.inkSecondary,
+            lineHeight: 1.65,
+          }}
+        >
+          {stage.detail}
+        </div>
       )}
     </div>
   );
@@ -621,35 +1400,75 @@ function ApplicationStack() {
 
   return (
     <section style={{ marginTop: 80, marginBottom: 60 }}>
-      <SectionHeading eyebrow="Workshop" title="Application stack"
-        lede="Eight stages from Plan to Monitor — the frameworks, databases, and tools that make every factory possible. Chosen for developer productivity and production reliability." />
+      <SectionHeading
+        eyebrow="Workshop"
+        title="Application stack"
+        lede="Eight stages from Plan to Monitor — the frameworks, databases, and tools that make every factory possible. Chosen for developer productivity and production reliability."
+      />
 
       <div style={{ marginBottom: 20 }}>
-        {APPSTACK_STAGES.map(stage => (
-          <AppStackStage key={stage.num} stage={stage}
+        {APPSTACK_STAGES.map((stage) => (
+          <AppStackStage
+            key={stage.num}
+            stage={stage}
             open={openStage === stage.num}
-            onToggle={() => setOpenStage(openStage === stage.num ? null : stage.num)} />
+            onToggle={() =>
+              setOpenStage(openStage === stage.num ? null : stage.num)
+            }
+          />
         ))}
       </div>
 
-      <div style={{
-        marginTop: 28, padding: "16px 20px",
-        background: t.surface1, border: `1px solid ${t.borderSoft}`, borderRadius: 8,
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        gap: 16, flexWrap: "wrap",
-      }}>
-        <div style={{
-          fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.5,
-        }}>Full diagrams, code templates, and worked examples for each stage live on the gist.</div>
-        <a href={APPSTACK_GIST_URL} target="_blank" rel="noopener noreferrer" style={{
-          fontFamily: FONT_MONO, fontSize: 11, color: t.accentInk,
-          background: t.paper, border: `1px solid ${t.accentBorder}`,
-          padding: "7px 14px", borderRadius: 4, textDecoration: "none",
-          letterSpacing: 0.5, fontWeight: 600, whiteSpace: "nowrap",
-          transition: "all 0.15s",
+      {/* Gist callout */}
+      <div
+        style={{
+          marginTop: 28,
+          padding: "16px 20px",
+          background: t.surface1,
+          border: `1px solid ${t.borderSoft}`,
+          borderRadius: 8,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 16,
+          flexWrap: "wrap",
         }}
-          onMouseEnter={e => e.currentTarget.style.background = t.accentFill}
-          onMouseLeave={e => e.currentTarget.style.background = t.paper}>
+      >
+        <div
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 13,
+            color: t.inkSecondary,
+            lineHeight: 1.5,
+          }}
+        >
+          Full diagrams, code templates, and worked examples for each stage live on the gist.
+        </div>
+        <a
+          href={APPSTACK_GIST_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            color: t.accentInk,
+            background: t.paper,
+            border: `1px solid ${t.accentBorder}`,
+            padding: "7px 14px",
+            borderRadius: 4,
+            textDecoration: "none",
+            letterSpacing: 0.5,
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = t.accentFill;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = t.paper;
+          }}
+        >
           OPEN GIST →
         </a>
       </div>
@@ -657,40 +1476,304 @@ function ApplicationStack() {
   );
 }
 
+// ── DEVOPS STACK ───────────────────────────────────────────────────────
+// "Pipeline" section — sibling to the Application Stack but the other
+// side of the loop. Reuses AppStackStage since the data shape is
+// identical: number, name, tools, summary, detail.
+
 function DevOpsStack() {
   const [openStage, setOpenStage] = useState(null);
 
   return (
     <section style={{ marginTop: 80, marginBottom: 60 }}>
-      <SectionHeading eyebrow="Pipeline" title="DevOps stack"
-        lede="The same eight stages, the other side of the loop. How code becomes containers, lands on infrastructure, and stays observed once it's running. Lean, cost-aware, minimal overlap between tools." />
+      <SectionHeading
+        eyebrow="Pipeline"
+        title="DevOps stack"
+        lede="The same eight stages, the other side of the loop. How code becomes containers, lands on infrastructure, and stays observed once it's running. Lean, cost-aware, minimal overlap between tools."
+      />
 
       <div style={{ marginBottom: 20 }}>
-        {DEVOPS_STAGES.map(stage => (
-          <AppStackStage key={stage.num} stage={stage}
+        {DEVOPS_STAGES.map((stage) => (
+          <AppStackStage
+            key={stage.num}
+            stage={stage}
             open={openStage === stage.num}
-            onToggle={() => setOpenStage(openStage === stage.num ? null : stage.num)} />
+            onToggle={() =>
+              setOpenStage(openStage === stage.num ? null : stage.num)
+            }
+          />
         ))}
       </div>
 
-      <div style={{
-        marginTop: 28, padding: "16px 20px",
-        background: t.surface1, border: `1px solid ${t.borderSoft}`, borderRadius: 8,
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        gap: 16, flexWrap: "wrap",
-      }}>
-        <div style={{
-          fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.5,
-        }}>Full diagrams, runbooks, and the cost rationale for each tool live on the gist.</div>
-        <a href={DEVOPS_GIST_URL} target="_blank" rel="noopener noreferrer" style={{
-          fontFamily: FONT_MONO, fontSize: 11, color: t.accentInk,
-          background: t.paper, border: `1px solid ${t.accentBorder}`,
-          padding: "7px 14px", borderRadius: 4, textDecoration: "none",
-          letterSpacing: 0.5, fontWeight: 600, whiteSpace: "nowrap",
-          transition: "all 0.15s",
+      {/* Gist callout */}
+      <div
+        style={{
+          marginTop: 28,
+          padding: "16px 20px",
+          background: t.surface1,
+          border: `1px solid ${t.borderSoft}`,
+          borderRadius: 8,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 16,
+          flexWrap: "wrap",
         }}
-          onMouseEnter={e => e.currentTarget.style.background = t.accentFill}
-          onMouseLeave={e => e.currentTarget.style.background = t.paper}>
+      >
+        <div
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 13,
+            color: t.inkSecondary,
+            lineHeight: 1.5,
+          }}
+        >
+          Full diagrams, runbooks, and the cost rationale for each tool live on the gist.
+        </div>
+        <a
+          href={DEVOPS_GIST_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            color: t.accentInk,
+            background: t.paper,
+            border: `1px solid ${t.accentBorder}`,
+            padding: "7px 14px",
+            borderRadius: 4,
+            textDecoration: "none",
+            letterSpacing: 0.5,
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = t.accentFill;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = t.paper;
+          }}
+        >
+          OPEN GIST →
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// ── CONTRIBUTION STACK ─────────────────────────────────────────────────
+// "Practice" section — how we engage with the libraries the engine
+// depends on. Two principles, an eight-step flow, a running log of
+// what actually happened. Sourced from the public gist.
+
+function ContributionStack() {
+  const [openEntry, setOpenEntry] = useState(null);
+
+  return (
+    <section style={{ marginTop: 80, marginBottom: 60 }}>
+      <SectionHeading
+        eyebrow="Practice"
+        title="Contribution stack"
+        lede="A record of what we've tried with the libraries and SDKs we depend on, and what the maintainers said back. Friction, not roadmap — most attempts won't merge, and that's the point."
+      />
+
+      {/* ── Principles ─────────────────────────────────────────── */}
+      <div style={{ marginBottom: 40 }}>
+        {CONTRIB_PRINCIPLES.map((p, i) => (
+          <div
+            key={i}
+            style={{
+              padding: "14px 0 14px 22px",
+              borderLeft: `2px solid ${t.borderMedium}`,
+              marginBottom: 12,
+              fontFamily: FONT_SERIF,
+              fontSize: 15.5,
+              fontStyle: "italic",
+              color: t.inkSecondary,
+              lineHeight: 1.55,
+            }}
+          >
+            {p}
+          </div>
+        ))}
+      </div>
+
+      {/* ── Process flow ───────────────────────────────────────── */}
+      <div style={{ marginBottom: 44 }}>
+        <div
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 10,
+            color: t.inkTertiary,
+            letterSpacing: 0.8,
+            textTransform: "uppercase",
+            fontWeight: 700,
+            marginBottom: 14,
+            paddingBottom: 8,
+            borderBottom: `1px solid ${t.borderMedium}`,
+          }}
+        >
+          The flow
+        </div>
+        {CONTRIB_STEPS.map((step, i) => (
+          <div
+            key={step.num}
+            style={{
+              display: "grid",
+              gridTemplateColumns: "32px 130px 1fr",
+              gap: 18,
+              alignItems: "baseline",
+              padding: "12px 0",
+              borderBottom:
+                i < CONTRIB_STEPS.length - 1
+                  ? `1px solid ${t.borderSoft}`
+                  : "none",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: FONT_MONO,
+                fontSize: 11,
+                color: t.accentInk,
+                background: t.accentFill,
+                border: `1px solid ${t.accentBorder}`,
+                width: 24,
+                height: 24,
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: 600,
+              }}
+            >
+              {step.num}
+            </div>
+            <div
+              style={{
+                fontFamily: FONT_SERIF,
+                fontSize: 15,
+                fontWeight: 700,
+                color: t.inkPrimary,
+                letterSpacing: "-0.005em",
+              }}
+            >
+              {step.name}
+            </div>
+            <div
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: 13,
+                color: t.inkSecondary,
+                lineHeight: 1.55,
+              }}
+            >
+              {step.desc}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Experiences log ────────────────────────────────────── */}
+      <div style={{ marginBottom: 28 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "baseline",
+            marginBottom: 14,
+            paddingBottom: 8,
+            borderBottom: `1px solid ${t.borderMedium}`,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+              color: t.inkTertiary,
+              letterSpacing: 0.8,
+              textTransform: "uppercase",
+              fontWeight: 700,
+            }}
+          >
+            Experiences log
+          </div>
+          <div
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+              color: t.inkGhost,
+              fontStyle: "italic",
+              letterSpacing: 0.3,
+            }}
+          >
+            {CONTRIB_ENTRIES.length} entries · click to expand
+          </div>
+        </div>
+
+        {CONTRIB_ENTRIES.map((entry) => (
+          <ContribEntry
+            key={entry.id}
+            entry={entry}
+            open={openEntry === entry.id}
+            onToggle={() =>
+              setOpenEntry(openEntry === entry.id ? null : entry.id)
+            }
+          />
+        ))}
+      </div>
+
+      {/* ── Gist link ──────────────────────────────────────────── */}
+      <div
+        style={{
+          marginTop: 28,
+          padding: "16px 20px",
+          background: t.surface1,
+          border: `1px solid ${t.borderSoft}`,
+          borderRadius: 8,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 16,
+          flexWrap: "wrap",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 13,
+            color: t.inkSecondary,
+            lineHeight: 1.5,
+          }}
+        >
+          Full diagram, tool list, and lessons live on the gist — the canonical
+          source as the log grows.
+        </div>
+        <a
+          href={GIST_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            color: t.accentInk,
+            background: t.paper,
+            border: `1px solid ${t.accentBorder}`,
+            padding: "7px 14px",
+            borderRadius: 4,
+            textDecoration: "none",
+            letterSpacing: 0.5,
+            fontWeight: 600,
+            whiteSpace: "nowrap",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = t.accentFill;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = t.paper;
+          }}
+        >
           OPEN GIST →
         </a>
       </div>
@@ -706,64 +1789,158 @@ function ContribEntry({ entry, open, onToggle }) {
   }[entry.outcomeKind] || { bg: t.surface1, border: t.borderMedium, color: t.inkTertiary };
 
   return (
-    <div style={{
-      marginBottom: 10, background: t.paper,
-      border: `1px solid ${open ? t.borderMedium : t.borderSoft}`,
-      borderRadius: 8, overflow: "hidden", transition: "border-color 0.15s",
-    }}>
-      <div onClick={onToggle} style={{
-        padding: "14px 18px", display: "grid",
-        gridTemplateColumns: "26px 1fr auto", gap: 16,
-        alignItems: "center", cursor: "pointer",
-      }}>
-        <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: t.inkTertiary, fontWeight: 600 }}>#{entry.id}</div>
-        <div style={{ minWidth: 0 }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 12.5, color: t.inkPrimary,
-            fontWeight: 600, marginBottom: 4, wordBreak: "break-all",
-          }}>{entry.project}</div>
-          <div style={{
-            fontFamily: FONT_SANS, fontSize: 12.5, color: t.inkSecondary,
-            lineHeight: 1.5, fontStyle: "italic",
-          }}>{entry.lesson}</div>
+    <div
+      style={{
+        marginBottom: 10,
+        background: t.paper,
+        border: `1px solid ${open ? t.borderMedium : t.borderSoft}`,
+        borderRadius: 8,
+        overflow: "hidden",
+        transition: "border-color 0.15s",
+      }}
+    >
+      {/* Summary row — always visible */}
+      <div
+        onClick={onToggle}
+        style={{
+          padding: "14px 18px",
+          display: "grid",
+          gridTemplateColumns: "26px 1fr auto",
+          gap: 16,
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 11,
+            color: t.inkTertiary,
+            fontWeight: 600,
+          }}
+        >
+          #{entry.id}
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
-          <span style={{
-            fontFamily: FONT_MONO, fontSize: 10, padding: "3px 9px", borderRadius: 3,
-            background: outcomeStyle.bg, color: outcomeStyle.color,
-            border: `1px solid ${outcomeStyle.border}`,
-            letterSpacing: 0.4, fontWeight: 600, whiteSpace: "nowrap",
-          }}>{entry.outcome}</span>
-          <span style={{
-            fontFamily: FONT_MONO, fontSize: 12, color: t.inkTertiary,
-            transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s",
-          }}>⌄</span>
+
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 12.5,
+              color: t.inkPrimary,
+              fontWeight: 600,
+              marginBottom: 4,
+              wordBreak: "break-all",
+            }}
+          >
+            {entry.project}
+          </div>
+          <div
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: 12.5,
+              color: t.inkSecondary,
+              lineHeight: 1.5,
+              fontStyle: "italic",
+            }}
+          >
+            {entry.lesson}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            flexShrink: 0,
+          }}
+        >
+          <span
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+              padding: "3px 9px",
+              borderRadius: 3,
+              background: outcomeStyle.bg,
+              color: outcomeStyle.color,
+              border: `1px solid ${outcomeStyle.border}`,
+              letterSpacing: 0.4,
+              fontWeight: 600,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {entry.outcome}
+          </span>
+          <span
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 12,
+              color: t.inkTertiary,
+              transform: open ? "rotate(180deg)" : "rotate(0deg)",
+              transition: "transform 0.2s",
+            }}
+          >
+            ⌄
+          </span>
         </div>
       </div>
 
+      {/* Expanded body */}
       {open && (
-        <div style={{
-          padding: "16px 18px 18px",
-          borderTop: `1px solid ${t.borderSoft}`, background: t.surface1,
-        }}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "90px 1fr", gap: 14,
-            fontFamily: FONT_SANS, fontSize: 12.5, lineHeight: 1.55,
-          }}>
-            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>Type</div>
+        <div
+          style={{
+            padding: "16px 18px 18px",
+            borderTop: `1px solid ${t.borderSoft}`,
+            background: t.surface1,
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "90px 1fr",
+              gap: 14,
+              fontFamily: FONT_SANS,
+              fontSize: 12.5,
+              lineHeight: 1.55,
+            }}
+          >
+            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>
+              Type
+            </div>
             <div style={{ color: t.inkSecondary }}>{entry.type}</div>
-            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>Trigger</div>
-            <div style={{ color: t.inkSecondary, fontStyle: "italic" }}>{entry.trigger}</div>
-            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>What happened</div>
+
+            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>
+              Trigger
+            </div>
+            <div style={{ color: t.inkSecondary, fontStyle: "italic" }}>
+              {entry.trigger}
+            </div>
+
+            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>
+              What happened
+            </div>
             <div style={{ color: t.inkSecondary }}>{entry.detail}</div>
-            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>Repo</div>
+
+            <div style={{ color: t.inkTertiary, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 0.5, textTransform: "uppercase", fontWeight: 700, paddingTop: 2 }}>
+              Repo
+            </div>
             <div>
-              <a href={entry.projectUrl} target="_blank" rel="noopener noreferrer" style={{
-                fontFamily: FONT_MONO, fontSize: 11.5, color: t.inkSecondary,
-                textDecoration: "none", borderBottom: `1px dotted ${t.borderMedium}`, paddingBottom: 1,
-              }}
-                onMouseEnter={e => e.currentTarget.style.color = t.accentInk}
-                onMouseLeave={e => e.currentTarget.style.color = t.inkSecondary}>
+              <a
+                href={entry.projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: FONT_MONO,
+                  fontSize: 11.5,
+                  color: t.inkSecondary,
+                  textDecoration: "none",
+                  borderBottom: `1px dotted ${t.borderMedium}`,
+                  paddingBottom: 1,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = t.accentInk)}
+                onMouseLeave={(e) => (e.currentTarget.style.color = t.inkSecondary)}
+              >
                 {entry.projectUrl.replace(/^https?:\/\//, "")}
               </a>
             </div>
@@ -774,163 +1951,177 @@ function ContribEntry({ entry, open, onToggle }) {
   );
 }
 
-function ContributionStack() {
-  const [openEntry, setOpenEntry] = useState(null);
-
-  return (
-    <section style={{ marginTop: 80, marginBottom: 60 }}>
-      <SectionHeading eyebrow="Practice" title="Contribution stack"
-        lede="A record of what we've tried with the libraries and SDKs we depend on, and what the maintainers said back. Friction, not roadmap — most attempts won't merge, and that's the point." />
-
-      <div style={{ marginBottom: 40 }}>
-        {CONTRIB_PRINCIPLES.map((p, i) => (
-          <div key={i} style={{
-            padding: "14px 0 14px 22px", borderLeft: `2px solid ${t.borderMedium}`,
-            marginBottom: 12, fontFamily: FONT_SERIF, fontSize: 15.5,
-            fontStyle: "italic", color: t.inkSecondary, lineHeight: 1.55,
-          }}>{p}</div>
-        ))}
-      </div>
-
-      <div style={{ marginBottom: 44 }}>
-        <div style={{
-          fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-          letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700,
-          marginBottom: 14, paddingBottom: 8, borderBottom: `1px solid ${t.borderMedium}`,
-        }}>The flow</div>
-        {CONTRIB_STEPS.map((step, i) => (
-          <div key={step.num} style={{
-            display: "grid", gridTemplateColumns: "32px 130px 1fr", gap: 18,
-            alignItems: "baseline", padding: "12px 0",
-            borderBottom: i < CONTRIB_STEPS.length - 1 ? `1px solid ${t.borderSoft}` : "none",
-          }}>
-            <div style={{
-              fontFamily: FONT_MONO, fontSize: 11, color: t.accentInk,
-              background: t.accentFill, border: `1px solid ${t.accentBorder}`,
-              width: 24, height: 24, borderRadius: "50%",
-              display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600,
-            }}>{step.num}</div>
-            <div style={{
-              fontFamily: FONT_SERIF, fontSize: 15, fontWeight: 700,
-              color: t.inkPrimary, letterSpacing: "-0.005em",
-            }}>{step.name}</div>
-            <div style={{
-              fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.55,
-            }}>{step.desc}</div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ marginBottom: 28 }}>
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "baseline",
-          marginBottom: 14, paddingBottom: 8, borderBottom: `1px solid ${t.borderMedium}`,
-        }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-            letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700,
-          }}>Experiences log</div>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, color: t.inkGhost,
-            fontStyle: "italic", letterSpacing: 0.3,
-          }}>{CONTRIB_ENTRIES.length} entries · click to expand</div>
-        </div>
-
-        {CONTRIB_ENTRIES.map(entry => (
-          <ContribEntry key={entry.id} entry={entry}
-            open={openEntry === entry.id}
-            onToggle={() => setOpenEntry(openEntry === entry.id ? null : entry.id)} />
-        ))}
-      </div>
-
-      <div style={{
-        marginTop: 28, padding: "16px 20px",
-        background: t.surface1, border: `1px solid ${t.borderSoft}`, borderRadius: 8,
-        display: "flex", justifyContent: "space-between", alignItems: "center",
-        gap: 16, flexWrap: "wrap",
-      }}>
-        <div style={{
-          fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.5,
-        }}>Full diagram, tool list, and lessons live on the gist — the canonical source as the log grows.</div>
-        <a href={GIST_URL} target="_blank" rel="noopener noreferrer" style={{
-          fontFamily: FONT_MONO, fontSize: 11, color: t.accentInk,
-          background: t.paper, border: `1px solid ${t.accentBorder}`,
-          padding: "7px 14px", borderRadius: 4, textDecoration: "none",
-          letterSpacing: 0.5, fontWeight: 600, whiteSpace: "nowrap",
-          transition: "all 0.15s",
-        }}
-          onMouseEnter={e => e.currentTarget.style.background = t.accentFill}
-          onMouseLeave={e => e.currentTarget.style.background = t.paper}>
-          OPEN GIST →
-        </a>
-      </div>
-    </section>
-  );
-}
+// ── STACK & PORT MAP ───────────────────────────────────────────────────
 
 function StackAndPorts() {
   return (
     <section style={{ marginTop: 80, marginBottom: 60 }}>
       <SectionHeading eyebrow="Infrastructure" title="Stack & port map" />
-      <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 40 }}>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+          gap: 40,
+        }}
+      >
+        {/* Stack */}
         <div>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-            letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700,
-            marginBottom: 14, paddingBottom: 8, borderBottom: `1px solid ${t.borderMedium}`,
-          }}>Stack</div>
+          <div
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+              color: t.inkTertiary,
+              letterSpacing: 0.8,
+              textTransform: "uppercase",
+              fontWeight: 700,
+              marginBottom: 14,
+              paddingBottom: 8,
+              borderBottom: `1px solid ${t.borderMedium}`,
+            }}
+          >
+            Stack
+          </div>
           {STACK.map(([layer, tool], i) => (
-            <div key={layer} style={{
-              display: "grid", gridTemplateColumns: "90px 1fr", gap: 16, padding: "10px 0",
-              borderBottom: i < STACK.length - 1 ? `1px solid ${t.borderSoft}` : "none",
-            }}>
-              <div style={{
-                fontFamily: FONT_MONO, fontSize: 11, color: t.inkTertiary,
-                fontWeight: 600, letterSpacing: 0.3, textTransform: "uppercase",
-              }}>{layer}</div>
-              <div style={{ fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.55 }}>{tool}</div>
+            <div
+              key={layer}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "90px 1fr",
+                gap: 16,
+                padding: "10px 0",
+                borderBottom: i < STACK.length - 1 ? `1px solid ${t.borderSoft}` : "none",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: FONT_MONO,
+                  fontSize: 11,
+                  color: t.inkTertiary,
+                  fontWeight: 600,
+                  letterSpacing: 0.3,
+                  textTransform: "uppercase",
+                }}
+              >
+                {layer}
+              </div>
+              <div
+                style={{
+                  fontFamily: FONT_SANS,
+                  fontSize: 13,
+                  color: t.inkSecondary,
+                  lineHeight: 1.55,
+                }}
+              >
+                {tool}
+              </div>
             </div>
           ))}
         </div>
 
+        {/* Port map */}
         <div>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, color: t.inkTertiary,
-            letterSpacing: 0.8, textTransform: "uppercase", fontWeight: 700,
-            marginBottom: 14, paddingBottom: 8, borderBottom: `1px solid ${t.borderMedium}`,
-          }}>Port map</div>
-          {[...FACTORIES].sort((a, b) => a.port - b.port).map((f, i, arr) => (
-            <div key={f.id} style={{
-              display: "grid", gridTemplateColumns: "70px 1fr auto", gap: 16, padding: "10px 0",
-              borderBottom: i < arr.length - 1 ? `1px solid ${t.borderSoft}` : "none", alignItems: "baseline",
-            }}>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 12, color: t.accentInk, fontWeight: 600 }}>:{f.port}</div>
-              <div style={{ fontFamily: FONT_SANS, fontSize: 13, color: t.inkSecondary, lineHeight: 1.45 }}>{f.name}</div>
-              <div><CategoryDot category={f.category} /></div>
-            </div>
-          ))}
+          <div
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 10,
+              color: t.inkTertiary,
+              letterSpacing: 0.8,
+              textTransform: "uppercase",
+              fontWeight: 700,
+              marginBottom: 14,
+              paddingBottom: 8,
+              borderBottom: `1px solid ${t.borderMedium}`,
+            }}
+          >
+            Port map
+          </div>
+          {[...FACTORIES]
+            .sort((a, b) => a.port - b.port)
+            .map((f, i, arr) => (
+              <div
+                key={f.id}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "70px 1fr auto",
+                  gap: 16,
+                  padding: "10px 0",
+                  borderBottom: i < arr.length - 1 ? `1px solid ${t.borderSoft}` : "none",
+                  alignItems: "baseline",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: FONT_MONO,
+                    fontSize: 12,
+                    color: t.accentInk,
+                    fontWeight: 600,
+                  }}
+                >
+                  :{f.port}
+                </div>
+                <div
+                  style={{
+                    fontFamily: FONT_SANS,
+                    fontSize: 13,
+                    color: t.inkSecondary,
+                    lineHeight: 1.45,
+                  }}
+                >
+                  {f.name}
+                </div>
+                <div>
+                  <CategoryDot category={f.category} />
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </section>
   );
 }
 
+// ── FOOTER ─────────────────────────────────────────────────────────────
+
 function Footer() {
   return (
-    <footer style={{
-      marginTop: 100, paddingTop: 28, paddingBottom: 60,
-      borderTop: `1px solid ${t.borderSoft}`,
-      display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 16,
-    }}>
-      <div style={{ fontFamily: FONT_SANS, fontSize: 12, color: t.inkTertiary, fontStyle: "italic" }}>
-        All instances are MIT licensed unless otherwise noted.
+    <footer
+      style={{
+        marginTop: 100,
+        paddingTop: 28,
+        paddingBottom: 60,
+        borderTop: `1px solid ${t.borderSoft}`,
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        gap: 16,
+      }}
+    >
+      <div
+        style={{
+          fontFamily: FONT_SANS,
+          fontSize: 12,
+          color: t.inkTertiary,
+          fontStyle: "italic",
+        }}
+      >
+        Mostly MIT licensed. Some projects are private; licence noted on each card.
       </div>
-      <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: t.inkTertiary, letterSpacing: 0.4 }}>
-        martinhewing · 2026
+      <div
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 11,
+          color: t.inkTertiary,
+          letterSpacing: 0.4,
+        }}
+      >
+        Connect AI ML · ConnectionSphere Ltd · 2026
       </div>
     </footer>
   );
 }
+
+// ── ROOT COMPONENT ─────────────────────────────────────────────────────
 
 function FactoryHub() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -938,11 +2129,11 @@ function FactoryHub() {
 
   const visibleFactories = useMemo(() => {
     if (activeCategory === "all") return FACTORIES;
-    return FACTORIES.filter(f => f.category === activeCategory);
+    return FACTORIES.filter((f) => f.category === activeCategory);
   }, [activeCategory]);
 
   const toggleCard = (id) => {
-    setExpandedCards(prev => {
+    setExpandedCards((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
@@ -951,10 +2142,17 @@ function FactoryHub() {
   };
 
   return (
-    <div style={{
-      background: t.paper, minHeight: "100vh", color: t.inkSecondary,
-      fontFamily: FONT_SANS, WebkitFontSmoothing: "antialiased", MozOsxFontSmoothing: "grayscale",
-    }}>
+    <div
+      style={{
+        background: t.paper,
+        minHeight: "100vh",
+        color: t.inkSecondary,
+        fontFamily: FONT_SANS,
+        WebkitFontSmoothing: "antialiased",
+        MozOsxFontSmoothing: "grayscale",
+      }}
+    >
+      {/* Page-level scrollbar styling */}
       <style>{`
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-thumb { background: ${t.borderMedium}; border-radius: 3px; }
@@ -964,30 +2162,54 @@ function FactoryHub() {
         button { font-family: inherit; }
       `}</style>
 
-      <main style={{ maxWidth: 880, margin: "0 auto", padding: "64px 28px 0" }}>
+      <main
+        style={{
+          maxWidth: 880,
+          margin: "0 auto",
+          padding: "64px 28px 0",
+        }}
+      >
         <PageHeader />
+
         <SectionRule />
-        <SectionHeading eyebrow="The seven" title="Instances"
-          lede="Each card opens to reveal the domain corpus, agent cast, curriculum shape, and links to live deployments, repos, and cheat sheets." />
+
+        <SectionHeading
+          eyebrow="Projects"
+          title="Eight in production"
+          lede="Each card opens to reveal the domain corpus, agent cast or numerical method, and links to live deployments, repos, and cheat sheets where available."
+        />
+
         <CategoryFilter active={activeCategory} onChange={setActiveCategory} />
+
         <div>
-          {visibleFactories.map(f => (
-            <FactoryCard key={f.id} factory={f}
-              expanded={expandedCards.has(f.id)} onToggle={() => toggleCard(f.id)} />
+          {visibleFactories.map((f) => (
+            <FactoryCard
+              key={f.id}
+              factory={f}
+              expanded={expandedCards.has(f.id)}
+              onToggle={() => toggleCard(f.id)}
+            />
           ))}
         </div>
+
         <ArchitectureSection />
+
         <ApplicationStack />
+
         <DevOpsStack />
+
         <ContributionStack />
+
         <StackAndPorts />
+
         <Footer />
       </main>
     </div>
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<FactoryHub />);
 </script>
 </body>
