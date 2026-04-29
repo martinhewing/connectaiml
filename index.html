@@ -630,7 +630,7 @@ function FactoryCard({ factory, expanded, onToggle }) {
             width: 3,
             background: accent,
             borderRadius: "0 2px 2px 0",
-            opacity: isVoice ? 1 : 0.55,
+            opacity: isAgent ? 1 : 0.55,
           }}
         />
 
@@ -724,7 +724,7 @@ function FactoryCard({ factory, expanded, onToggle }) {
 
           {/* Port badge — fixed right */}
           <div style={{ flexShrink: 0 }}>
-            <MetaTag accent={isVoice}>:{factory.port}</MetaTag>
+            <MetaTag accent={isAgent}>:{factory.port}</MetaTag>
           </div>
         </div>
 
